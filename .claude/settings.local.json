@@ -1,0 +1,28 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(pnpm --version)",
+      "Bash(docker --version)",
+      "Bash(supabase --version)",
+      "Bash(npx expo:*)",
+      "Bash(eas --version)",
+      "Bash(xcodebuild -version)",
+      "Bash(nvm --version)",
+      "Bash(nvm list:*)",
+      "Bash(nvm install:*)",
+      "Bash(nvm alias:*)",
+      "Bash(npm install:*)",
+      "Bash(brew install:*)",
+      "Bash(mdfind \"kMDItemCFBundleIdentifier == ''''com.apple.dt.Xcode''''\")",
+      "Read(//Users/hwani/Applications/**)",
+      "Bash(sudo xcode-select:*)",
+      "Bash(xcrun --version)",
+      "Bash(swift --version)",
+      "Bash(xcode-select:*)",
+      "Bash(nvm use:*)",
+      "Bash(pnpm create:*)",
+      "Bash(pnpm install:*)",
+      "Bash(supabase init:*)"
+    ]
+  }
+}
