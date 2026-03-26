@@ -22,7 +22,23 @@
       "Bash(nvm use:*)",
       "Bash(pnpm create:*)",
       "Bash(pnpm install:*)",
-      "Bash(supabase init:*)"
+      "Bash(supabase init:*)",
+      "Bash(open:*)",
+      "Bash(pnpm --filter @without-code/mobile add expo-auth-session expo-web-browser expo-secure-store)",
+      "Bash(/Users/hwani/.local/share/pnpm/pnpm --filter @without-code/mobile add expo-auth-session expo-web-browser expo-secure-store)",
+      "Bash(npm exec:*)",
+      "Bash(node -e \"console.log\\(process.env.PATH\\)\")",
+      "Read(//Users/hwani/.local/share/**)",
+      "Read(//Users/hwani/Library/pnpm/**)",
+      "Read(//usr/local/bin/**)",
+      "Bash(node -e \"require\\(''''child_process''''\\).execSync\\(''''pnpm --version'''', {env: {...process.env, PATH: process.env.PATH + '''':/Users/hwani/.nvm/versions/node/v20.20.1/bin''''}}\\)\")",
+      "Read(//Users/hwani/.nvm/versions/node/v20.20.1/bin/**)",
+      "Bash(/Users/hwani/.nvm/versions/node/v20.20.1/bin/corepack enable:*)",
+      "Bash(/Users/hwani/.nvm/versions/node/v20.20.1/bin/corepack pnpm:*)",
+      "Bash(find /Users/hwani/without-code/packages/ui/components -type f -name *.ts -o -name *.tsx)",
+      "Bash(grep -l \"onboarding\\\\|consent\\\\|marketing\" /Users/hwani/without-code/supabase/migrations/*.sql)",
+      "Bash(npx tsc:*)",
+      "Bash(pnpm exec:*)"
     ]
   }
 }

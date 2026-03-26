@@ -1,27 +1,29 @@
+/* Pretendard — variable subset (CDN) */
+@import url('https://cdn.jsdelivr.net/npm/pretendard@latest/dist/web/variable/pretendardvariable-dynamic-subset.css');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
+@layer base {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --color-ink:       #1C1C1A;
+    --color-brand:     #E8483A;
+    --color-brand-dim: #C23A2E;
+    --color-ivory:     #F7F7F5;
+    --color-charcoal:  #444441;
+    --color-stone:     #888780;
+    --color-cloud:     #D3D1C7;
+    --color-light:     #F2F0EB;
   }
-}
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
-}
+  html {
+    font-family: 'Pretendard Variable', 'Apple SD Gothic Neo', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
+  body {
+    @apply bg-ivory text-ink;
   }
 }

@@ -35,3 +35,8 @@ yarn-error.log*
 # IDE
 .idea
 .vscode
+
+# EAS / App Store 키 파일
+apps/mobile/google-play-service-account.json
+*.p8
+*.p12

@@ -795,8 +795,11 @@ export type Database = {
           interest_tools: string[] | null
           is_active: boolean | null
           is_premium: boolean | null
+          marketing_agreed: boolean
+          onboarding_completed: boolean
           premium_until: string | null
           project_count: number | null
+          terms_agreed_at: string | null
           username: string
           username_changed_at: string | null
           website_url: string | null
@@ -816,8 +819,11 @@ export type Database = {
           interest_tools?: string[] | null
           is_active?: boolean | null
           is_premium?: boolean | null
+          marketing_agreed?: boolean
+          onboarding_completed?: boolean
           premium_until?: string | null
           project_count?: number | null
+          terms_agreed_at?: string | null
           username: string
           username_changed_at?: string | null
           website_url?: string | null
@@ -837,8 +843,11 @@ export type Database = {
           interest_tools?: string[] | null
           is_active?: boolean | null
           is_premium?: boolean | null
+          marketing_agreed?: boolean
+          onboarding_completed?: boolean
           premium_until?: string | null
           project_count?: number | null
+          terms_agreed_at?: string | null
           username?: string
           username_changed_at?: string | null
           website_url?: string | null
