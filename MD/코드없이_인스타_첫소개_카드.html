@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>코드없이 — 인스타 첫 소개 카드</title>
+<style>
+  @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #888780;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    gap: 24px;
+    padding: 40px;
+    font-family: 'Pretendard', sans-serif;
+  }
+
+  .hint {
+    color: #fff;
+    font-size: 13px;
+    opacity: 0.7;
+  }
+
+  /* ── 카드 본체 1080×1080 ── */
+  .card {
+    width: 1080px;
+    height: 1080px;
+    background: #1C1C1A;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* 배경 노이즈 텍스처 느낌 - subtle grid */
+  .card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(247,247,245,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(247,247,245,0.03) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events: none;
+  }
+
+  /* 상단 레드 포인트 라인 */
+  .top-line {
+    position: absolute;
+    top: 72px;
+    left: 72px;
+    right: 72px;
+    height: 2px;
+    background: #E8483A;
+    border-radius: 2px;
+  }
+
+  /* 하단 레드 포인트 라인 */
+  .bottom-line {
+    position: absolute;
+    bottom: 72px;
+    left: 72px;
+    right: 72px;
+    height: 2px;
+    background: rgba(232,72,58,0.3);
+    border-radius: 2px;
+  }
+
+  /* 메인 콘텐츠 영역 */
+  .content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+    z-index: 1;
+  }
+
+  /* 로고 컨테이너 */
+  .logo-wrap {
+    width: 180px;
+    height: 180px;
+    margin-bottom: 56px;
+    filter: drop-shadow(0 8px 40px rgba(232,72,58,0.25));
+  }
+
+  /* 레이블 */
+  .label {
+    font-size: 15px;
+    font-weight: 500;
+    color: #E8483A;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+  }
+
+  /* 메인 타이틀 */
+  .title {
+    font-size: 80px;
+    font-weight: 800;
+    color: #F7F7F5;
+    letter-spacing: -0.03em;
+    line-height: 1;
+    margin-bottom: 32px;
+  }
+
+  /* 구분선 */
+  .divider {
+    width: 48px;
+    height: 3px;
+    background: #E8483A;
+    border-radius: 2px;
+    margin-bottom: 40px;
+  }
+
+  /* 서브 텍스트 */
+  .sub {
+    font-size: 26px;
+    font-weight: 400;
+    color: #888780;
+    text-align: center;
+    line-height: 1.6;
+    margin-bottom: 12px;
+  }
+
+  .sub strong {
+    color: #D3D1C7;
+    font-weight: 600;
+  }
+
+  /* 도메인 */
+  .domain {
+    margin-top: 52px;
+    font-size: 18px;
+    font-weight: 500;
+    color: #444441;
+    letter-spacing: 0.05em;
+  }
+
+  /* 우하단 뱃지 */
+  .badge {
+    position: absolute;
+    bottom: 108px;
+    right: 80px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 6px;
+  }
+
+  .badge-line {
+    font-size: 13px;
+    color: #444441;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+  }
+
+  .badge-line.highlight {
+    color: #E8483A;
+  }
+
+  /* 좌하단 태그 */
+  .tags {
+    position: absolute;
+    bottom: 108px;
+    left: 80px;
+    display: flex;
+    gap: 10px;
+  }
+
+  .tag {
+    padding: 6px 14px;
+    border: 1px solid #333330;
+    border-radius: 20px;
+    font-size: 13px;
+    color: #888780;
+    font-weight: 500;
+  }
+
+  /* 스크린샷 안내 */
+  .screenshot-guide {
+    background: #fff;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-size: 13px;
+    color: #444441;
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+
+<p class="hint">💡 브라우저에서 이 카드를 스크린샷 찍어 인스타에 업로드하세요 (카드 크기: 1080×1080)</p>
+
+<div class="card">
+  <!-- 상단 레드라인 -->
+  <div class="top-line"></div>
+
+  <!-- 메인 콘텐츠 -->
+  <div class="content">
+
+    <!-- 로고 SVG (PRD 스펙 그대로) -->
+    <div class="logo-wrap">
+      <svg width="180" height="180" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="200" height="200" rx="44" fill="#F7F7F5"/>
+        <text
+          x="100"
+          y="122"
+          text-anchor="middle"
+          font-size="96"
+          font-weight="500"
+          fill="#1C1C1A"
+          font-family="monospace">&lt;/&gt;</text>
+        <line x1="14" y1="92" x2="186" y2="92" stroke="#E8483A" stroke-width="9" stroke-linecap="round"/>
+      </svg>
+    </div>
+
+    <div class="label">Introducing</div>
+    <div class="title">코드없이</div>
+    <div class="divider"></div>
+
+    <div class="sub">
+      <strong>8주 동안</strong> 바이브코딩으로 직접 만드는 SNS
+    </div>
+    <div class="sub">
+      코드 없이 AI로 무언가를 만드는<br>사람들의 커뮤니티
+    </div>
+
+    <div class="domain">withoutcodeo.kr</div>
+  </div>
+
+  <!-- 좌하단 태그 -->
+  <div class="tags">
+    <div class="tag">#바이브코딩</div>
+    <div class="tag">#비개발자</div>
+    <div class="tag">#AI창작</div>
+  </div>
+
+  <!-- 우하단 뱃지 -->
+  <div class="badge">
+    <div class="badge-line highlight">Coming Soon</div>
+    <div class="badge-line">@withoutcode</div>
+  </div>
+
+  <!-- 하단 레드라인 -->
+  <div class="bottom-line"></div>
+</div>
+
+<div class="screenshot-guide">
+  스크린샷 팁: Mac → <strong>⌘ + Shift + 4</strong> &nbsp;|&nbsp; Windows → <strong>Win + Shift + S</strong><br>
+  카드 영역만 정확히 캡처 후 인스타에 업로드하세요
+</div>
+
+</body>
+</html>

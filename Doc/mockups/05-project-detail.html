@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>코드없이 — 프로젝트 상세</title>
+<style>
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+:root{
+  --ink:#1C1C1A; --red:#E8483A;
+  --white:#F7F7F5; --char:#444441; --stone:#888780;
+  --cloud:#D3D1C7; --light:#F2F0EB;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+body{
+  font-family:'Pretendard',-apple-system,sans-serif;
+  background:var(--white); color:var(--ink);
+  -webkit-font-smoothing:antialiased;
+  /* 하단 액션바 공간 */
+  padding-bottom:calc(68px + env(safe-area-inset-bottom));
+}
+
+/* ── TOP NAV ── */
+nav{
+  position:sticky; top:0; z-index:100;
+  display:flex; align-items:center; justify-content:space-between;
+  padding:0 16px; height:52px;
+  background:var(--white);
+  border-bottom:1px solid var(--cloud);
+}
+.nav-back{
+  display:flex; align-items:center; gap:4px;
+  font-size:14px; font-weight:600; color:var(--char);
+  cursor:pointer; padding:8px 0;
+  -webkit-tap-highlight-color:transparent;
+}
+.nav-back:active{opacity:.6;}
+.nav-right{display:flex;gap:4px;}
+.nav-icon-btn{
+  width:36px; height:36px;
+  display:flex; align-items:center; justify-content:center;
+  color:var(--char); cursor:pointer;
+  -webkit-tap-highlight-color:transparent;
+}
+.nav-icon-btn:active{opacity:.6;}
+
+/* ── CONTENT ── */
+.content{padding:0;}
+
+/* 썸네일 — 모바일 full-bleed */
+.hero{
+  width:100%; aspect-ratio:16/9;
+  background:var(--light); overflow:hidden;
+}
+.hero img{width:100%;height:100%;object-fit:cover;display:block;}
+
+/* 메인 패딩 영역 */
+.body{padding:16px 16px 0;}
+
+.proj-tools{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:10px;}
+.tool-tag{
+  padding:3px 8px; border-radius:4px;
+  background:var(--light); font-size:11px; font-weight:600; color:var(--char);
+  border:1px solid var(--cloud);
+}
+.tool-tag.prompt{background:rgba(232,72,58,.07);color:var(--red);border-color:rgba(232,72,58,.18);}
+
+.proj-title{font-size:22px;font-weight:800;letter-spacing:-.4px;line-height:1.35;margin-bottom:12px;}
+
+.proj-author{
+  display:flex; align-items:center; gap:10px;
+  padding:14px 0;
+  border-top:1px solid var(--cloud);
+  border-bottom:1px solid var(--cloud);
+  margin-bottom:16px;
+}
+.author-av{
+  width:36px; height:36px; border-radius:50%;
+  background:var(--light); overflow:hidden; flex-shrink:0;
+}
+.author-av img{width:100%;height:100%;object-fit:cover;}
+.author-info{flex:1;}
+.author-name{font-size:14px;font-weight:700;}
+.author-date{font-size:12px;color:var(--stone);margin-top:1px;}
+.follow-btn{
+  padding:7px 14px; border-radius:7px;
+  background:var(--ink); color:var(--white);
+  font-family:inherit; font-size:13px; font-weight:700; border:none; cursor:pointer;
+  -webkit-tap-highlight-color:transparent;
+  flex-shrink:0;
+}
+.follow-btn:active{background:var(--char);}
+
+/* 통계 */
+.stats-row{
+  display:flex; gap:0;
+  padding:14px 0;
+  border-bottom:1px solid var(--cloud);
+  margin-bottom:18px;
+}
+.stat{flex:1;text-align:center;}
+.stat-num{font-size:18px;font-weight:800;letter-spacing:-.4px;}
+.stat-label{font-size:11px;color:var(--stone);margin-top:2px;}
+.stat+.stat{border-left:1px solid var(--cloud);}
+
+/* 설명 */
+.proj-desc{
+  font-size:15px; line-height:1.8; color:var(--char);
+  margin-bottom:20px;
+  white-space:pre-line;
+}
+
+/* 링크 */
+.link-row{display:flex;gap:8px;margin-bottom:24px;}
+.link-btn{
+  flex:1; display:flex; align-items:center; justify-content:center; gap:7px;
+  padding:13px; border-radius:9px;
+  font-family:inherit; font-size:14px; font-weight:700;
+  border:none; cursor:pointer;
+  -webkit-tap-highlight-color:transparent;
+  text-decoration:none;
+}
+.link-demo{background:var(--red);color:#fff;}
+.link-demo:active{background:#d63f32;}
+.link-github{background:var(--ink);color:var(--white);}
+.link-github:active{background:var(--char);}
+
+/* 섹션 구분 */
+.section-title{
+  font-size:15px; font-weight:700; letter-spacing:-.2px;
+  margin-bottom:14px; display:flex; align-items:center; gap:8px;
+}
+
+/* 프롬프트 */
+.prompt-wrap{
+  border:1.5px solid var(--cloud); border-radius:10px;
+  overflow:hidden; margin-bottom:24px; background:#fff;
+}
+.prompt-head{
+  display:flex; align-items:center; justify-content:space-between;
+  padding:13px 14px;
+  background:var(--light);
+  border-bottom:1px solid var(--cloud);
+}
+.prompt-head-left{display:flex;align-items:center;gap:9px;}
+.prompt-head-icon{
+  width:30px; height:30px; border-radius:7px;
+  background:rgba(232,72,58,.1);
+  display:flex; align-items:center; justify-content:center;
+  color:var(--red); flex-shrink:0;
+}
+.prompt-head-texts{}
+.prompt-head-title{font-size:14px;font-weight:700;}
+.prompt-head-sub{font-size:12px;color:var(--stone);margin-top:1px;}
+.copy-all{
+  padding:6px 11px; border-radius:6px;
+  background:#fff; border:1.5px solid var(--cloud);
+  font-family:inherit; font-size:12px; font-weight:700; color:var(--char); cursor:pointer;
+  flex-shrink:0;
+  -webkit-tap-highlight-color:transparent;
+}
+.copy-all:active{background:var(--cloud);}
+.prompt-count{
+  display:block; font-size:11px; color:var(--red);
+  font-weight:700; margin-top:2px;
+}
+
+.prompt-item{
+  padding:14px;
+  border-bottom:1px solid var(--light);
+}
+.prompt-item:last-child{border-bottom:none;}
+.pi-label{
+  font-size:11px; font-weight:700; color:var(--stone);
+  margin-bottom:8px; display:flex; align-items:center; gap:6px;
+}
+.pi-step{background:var(--light);padding:2px 7px;border-radius:4px;font-size:10px;font-weight:600;color:var(--char);}
+.pi-text{
+  font-size:13px; line-height:1.7; color:var(--char);
+  background:var(--light); border-radius:7px;
+  padding:12px 13px; position:relative;
+}
+.pi-copy{
+  display:flex; align-items:center; gap:4px;
+  margin-top:8px;
+  font-size:12px; font-weight:700; color:var(--stone);
+  background:none; border:none; font-family:inherit; cursor:pointer; padding:0;
+  -webkit-tap-highlight-color:transparent;
+}
+.pi-copy:active{opacity:.6;}
+.pi-stats{font-size:11px;color:var(--stone);margin-top:6px;}
+
+/* 댓글 */
+.comments-section{padding:0 16px 20px;}
+.comments-title{
+  font-size:16px; font-weight:800; letter-spacing:-.3px;
+  margin-bottom:16px; display:flex; align-items:center; gap:6px;
+}
+.comments-title span{font-size:13px;font-weight:500;color:var(--stone);}
+
+.comment-new{display:flex;gap:10px;margin-bottom:20px;}
+.c-av{
+  width:32px; height:32px; border-radius:50%;
+  background:var(--light); overflow:hidden; flex-shrink:0;
+}
+.c-av img{width:100%;height:100%;object-fit:cover;}
+.c-input-wrap{flex:1;}
+.c-input{
+  width:100%; padding:11px 13px;
+  border:1.5px solid var(--cloud); border-radius:9px;
+  font-family:inherit; font-size:15px; color:var(--ink);
+  background:#fff; outline:none; resize:none;
+  -webkit-appearance:none;
+  transition:border-color .12s; line-height:1.5;
+}
+.c-input:focus{border-color:var(--ink);}
+.c-submit-row{display:flex;justify-content:flex-end;margin-top:7px;}
+.c-submit{
+  padding:8px 16px; border-radius:7px;
+  background:var(--ink); color:var(--white);
+  font-family:inherit; font-size:13px; font-weight:700;
+  border:none; cursor:pointer;
+  -webkit-tap-highlight-color:transparent;
+}
+.c-submit:active{background:var(--char);}
+
+.comment{display:flex;gap:10px;margin-bottom:16px;}
+.c-body{flex:1;}
+.c-header{display:flex;align-items:center;gap:8px;margin-bottom:4px;}
+.c-name{font-size:13px;font-weight:700;}
+.c-time{font-size:12px;color:var(--stone);}
+.c-text{font-size:14px;line-height:1.6;color:var(--char);}
+.c-footer{display:flex;gap:12px;margin-top:7px;}
+.c-act{
+  display:flex; align-items:center; gap:4px;
+  font-size:12px; color:var(--stone);
+  background:none; border:none; font-family:inherit; cursor:pointer; padding:0;
+  min-height:28px; /* 최소 터치 타겟 */
+  -webkit-tap-highlight-color:transparent;
+}
+.c-act.liked{color:var(--red);}
+
+/* ── 하단 액션바 (모바일) ── */
+.bottom-actions{
+  position:fixed; bottom:0; left:0; right:0; z-index:100;
+  display:flex; align-items:center; gap:8px;
+  padding:10px 16px;
+  padding-bottom:calc(10px + env(safe-area-inset-bottom));
+  background:var(--white); border-top:1px solid var(--cloud);
+}
+.act-btn{
+  display:flex; align-items:center; gap:6px;
+  flex:1; justify-content:center;
+  padding:10px 0; border-radius:9px;
+  font-family:inherit; font-size:13px; font-weight:600; color:var(--char);
+  background:var(--light); border:1px solid var(--cloud);
+  cursor:pointer;
+  -webkit-tap-highlight-color:transparent;
+}
+.act-btn:active{background:var(--cloud);}
+.act-btn.liked{color:var(--red); border-color:var(--red); background:rgba(232,72,58,.06);}
+.act-btn.saved{color:var(--ink); border-color:var(--ink);}
+.demo-act{
+  display:flex; align-items:center; gap:6px;
+  padding:10px 16px; border-radius:9px;
+  font-family:inherit; font-size:13px; font-weight:700; color:#fff;
+  background:var(--red); border:none; cursor:pointer; flex-shrink:0;
+  -webkit-tap-highlight-color:transparent;
+}
+.demo-act:active{background:#d63f32;}
+
+/* ── DESKTOP ── */
+@media(min-width:768px){
+  body{padding-bottom:0;}
+  nav{padding:0 24px;height:56px;}
+  .bottom-actions{display:none;}
+
+  .desktop-wrap{
+    max-width:1100px; margin:0 auto;
+    display:grid; grid-template-columns:1fr 300px;
+    gap:28px; padding:28px 24px 80px;
+  }
+  .hero{border-radius:10px;border:1px solid var(--cloud);}
+  .body{padding:0;}
+  .comments-section{padding:0;}
+
+  /* 데스크탑용 액션바 — 본문 안에 inline으로 표시 */
+  .desktop-action-bar{
+    display:flex; align-items:center; gap:7px;
+    padding:14px 0;
+    border-bottom:1px solid var(--cloud);
+    margin-bottom:22px;
+  }
+  .dact{
+    display:flex; align-items:center; gap:6px;
+    padding:8px 13px; border-radius:7px;
+    font-family:inherit; font-size:13px; font-weight:600;
+    background:#fff; border:1.5px solid var(--cloud);
+    color:var(--char); cursor:pointer;
+    transition:border-color .12s;
+  }
+  .dact:hover{border-color:var(--char);}
+  .dact.liked{border-color:var(--red);color:var(--red);}
+  .dact.saved{border-color:var(--ink);color:var(--ink);}
+  .dact-spacer{flex:1;}
+  .dact-share{
+    display:flex; align-items:center; gap:6px;
+    padding:8px 13px; border-radius:7px;
+    font-family:inherit; font-size:13px; font-weight:600;
+    background:#fff; border:1.5px solid var(--cloud);
+    color:var(--char); cursor:pointer;
+    transition:border-color .12s;
+  }
+  .dact-share:hover{border-color:var(--char);}
+
+  .side-card{
+    background:#fff; border:1px solid var(--cloud);
+    border-radius:10px; padding:18px; margin-bottom:14px;
+  }
+  .side-card-title{font-size:12px;font-weight:700;color:var(--stone);margin-bottom:14px;}
+  .stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  .s-stat{text-align:center;}
+  .s-stat-num{font-size:22px;font-weight:800;}
+  .s-stat-label{font-size:11px;color:var(--stone);margin-top:2px;}
+
+  .author-card{display:flex;flex-direction:column;align-items:center;text-align:center;gap:9px;}
+  .ac-av{width:56px;height:56px;border-radius:50%;background:var(--light);overflow:hidden;}
+  .ac-av img{width:100%;height:100%;object-fit:cover;}
+  .ac-name{font-size:16px;font-weight:800;}
+  .ac-bio{font-size:13px;color:var(--stone);line-height:1.5;}
+  .ac-stats{display:flex;gap:18px;font-size:13px;}
+  .ac-stat span{font-weight:700;}
+  .ac-follow{width:100%;padding:9px;border-radius:7px;background:var(--ink);color:var(--white);font-family:inherit;font-size:13px;font-weight:700;border:none;cursor:pointer;}
+  .ac-follow:hover{background:var(--char);}
+
+  .related-list{display:flex;flex-direction:column;}
+  .related-item{display:flex;gap:9px;cursor:pointer;padding:9px 0;border-bottom:1px solid var(--light);}
+  .related-item:last-child{border-bottom:none;padding-bottom:0;}
+  .related-item:hover{opacity:.75;}
+  .ri-thumb{width:60px;height:45px;border-radius:6px;overflow:hidden;flex-shrink:0;background:var(--light);}
+  .ri-thumb img{width:100%;height:100%;object-fit:cover;}
+  .ri-title{font-size:12px;font-weight:600;line-height:1.4;margin-bottom:3px;}
+  .ri-meta{font-size:11px;color:var(--stone);}
+}
+/* 모바일: 데스크탑 전용 요소 숨기기 */
+.desktop-action-bar,.side-col{display:none;}
+/* 모바일: 통계 row 표시, 데스크탑에서는 사이드바 통계로 대체 */
+@media(min-width:768px){
+  .desktop-action-bar{display:flex;}
+  .side-col{display:block;}
+  .stats-row{display:none;}
+  .mobile-only{display:none;}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-back">
+    <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M11 4L6 9l5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    뒤로
+  </div>
+  <div class="nav-right">
+    <div class="nav-icon-btn">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="14" cy="3" r="1.8" stroke="currentColor" stroke-width="1.4"/><circle cx="3" cy="10" r="1.8" stroke="currentColor" stroke-width="1.4"/><circle cx="14" cy="17" r="1.8" stroke="currentColor" stroke-width="1.4"/><path d="M4.7 10.8l7.7 4.4M12.4 4.5l-7.7 4.3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+    </div>
+    <div class="nav-icon-btn">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="5" r="1.5" fill="currentColor"/><circle cx="10" cy="10" r="1.5" fill="currentColor"/><circle cx="10" cy="15" r="1.5" fill="currentColor"/></svg>
+    </div>
+  </div>
+</nav>
+
+<!-- 데스크탑 2컬럼 래퍼 -->
+<div class="desktop-wrap">
+
+  <!-- 메인 콘텐츠 -->
+  <div class="main-col">
+    <div class="content">
+      <div class="hero">
+        <img src="https://picsum.photos/seed/det1/1200/675" alt="">
+      </div>
+
+      <div class="body">
+        <div class="proj-tools">
+          <span class="tool-tag">Cursor</span>
+          <span class="tool-tag">Claude</span>
+          <span class="tool-tag">Supabase</span>
+          <span class="tool-tag prompt">프롬프트 공개</span>
+        </div>
+
+        <h1 class="proj-title">Claude + Cursor로 만든<br>실시간 협업 메모 앱</h1>
+
+        <div class="proj-author">
+          <div class="author-av"><img src="https://picsum.photos/seed/da1/60/60" alt=""></div>
+          <div class="author-info">
+            <div class="author-name">vibecoder_kim</div>
+            <div class="author-date">2026년 3월 24일</div>
+          </div>
+          <button class="follow-btn">팔로우</button>
+        </div>
+
+        <!-- 통계 (모바일 only) -->
+        <div class="stats-row mobile-only">
+          <div class="stat">
+            <div class="stat-num">128</div>
+            <div class="stat-label">좋아요</div>
+          </div>
+          <div class="stat">
+            <div class="stat-num">24</div>
+            <div class="stat-label">댓글</div>
+          </div>
+          <div class="stat">
+            <div class="stat-num">1.2k</div>
+            <div class="stat-label">조회</div>
+          </div>
+          <div class="stat">
+            <div class="stat-num">231</div>
+            <div class="stat-label">프롬프트 복사</div>
+          </div>
+        </div>
+
+        <!-- 데스크탑 액션바 -->
+        <div class="desktop-action-bar">
+          <button class="dact liked">
+            <svg width="15" height="15" viewBox="0 0 15 15" fill="#E8483A"><path d="M7.5 12.5S1.5 9 1.5 4.9a3.2 3.2 0 0 1 6-1.6A3.2 3.2 0 0 1 13.5 4.9C13.5 9 7.5 12.5 7.5 12.5z"/></svg>
+            좋아요 128
+          </button>
+          <button class="dact">
+            <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M13.5 1.5h-12a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h8.5l3.5 2.5V2a.5.5 0 0 0-.5-.5z" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            댓글 24
+          </button>
+          <button class="dact saved">
+            <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M12.5 1.5h-10a.5.5 0 0 0-.5.5v12l5-3 5 3V2a.5.5 0 0 0-.5-.5z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            저장 47
+          </button>
+          <div class="dact-spacer"></div>
+          <button class="dact-share">
+            <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><circle cx="11.5" cy="2.5" r="1.5" stroke="currentColor" stroke-width="1.3"/><circle cx="2.5" cy="7.5" r="1.5" stroke="currentColor" stroke-width="1.3"/><circle cx="11.5" cy="12.5" r="1.5" stroke="currentColor" stroke-width="1.3"/><path d="M4 8.2l6.5 3.6M10.5 3.2l-6.5 3.6" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+            공유
+          </button>
+        </div>
+
+        <div class="proj-desc">팀원들과 동시에 편집 가능한 메모 앱을 바이브코딩으로 만들었어요. Supabase Realtime 덕분에 지연 없이 동기화됩니다.
+
+기획부터 배포까지 딱 3일 걸렸어요. Claude한테 아키텍처 설계부터 부탁했더니 생각보다 훨씬 빠르게 진행됐어요.
+
+커서 위치 공유 기능이 제일 어려웠는데, TipTap과 Supabase Presence를 연동하는 방법을 단계별로 설명해달라고 했더니 바로 나왔습니다.</div>
+
+        <div class="link-row">
+          <a href="#" class="link-btn link-demo">
+            데모 보러가기
+            <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2 11L11 2M11 2H6M11 2v5" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+          <a href="#" class="link-btn link-github">
+            <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M7.5 1C3.91 1 1 3.91 1 7.5c0 2.86 1.85 5.27 4.42 6.13.32.06.44-.14.44-.31v-1.1c-1.8.39-2.18-1.07-2.18-1.07-.3-.76-.73-.96-.73-.96-.59-.4.04-.4.04-.4.65.05 1 .67 1 .67.58.99 1.52.7 1.89.54.06-.42.23-.7.41-.86-1.45-.16-2.97-.72-2.97-3.22 0-.71.25-1.29.67-1.74-.07-.17-.29-.83.06-1.73 0 0 .55-.18 1.8.67a6.3 6.3 0 0 1 3.27 0c1.25-.85 1.8-.67 1.8-.67.35.9.13 1.56.06 1.73.42.45.67 1.03.67 1.74 0 2.51-1.52 3.06-2.97 3.22.23.2.44.6.44 1.21v1.79c0 .17.12.38.44.31A6.5 6.5 0 0 0 14 7.5C14 3.91 11.09 1 7.5 1z" fill="white"/></svg>
+            GitHub
+          </a>
+        </div>
+
+        <!-- 프롬프트 -->
+        <div class="prompt-wrap">
+          <div class="prompt-head">
+            <div class="prompt-head-left">
+              <div class="prompt-head-icon">
+                <svg width="15" height="15" viewBox="0 0 16 16" fill="none"><polyline points="4 3 1 8 4 13" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><polyline points="12 3 15 8 12 13" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </div>
+              <div class="prompt-head-texts">
+                <div class="prompt-head-title">공개 프롬프트 2개</div>
+                <span class="prompt-count">231회 복사됨</span>
+              </div>
+            </div>
+            <button class="copy-all">전체 복사</button>
+          </div>
+
+          <div class="prompt-item">
+            <div class="pi-label"><span class="pi-step">1단계</span> 아키텍처 설계</div>
+            <div class="pi-text">실시간 협업이 가능한 메모 앱을 만들려고 해. Next.js + Supabase를 쓸 거고, 여러 명이 동시에 같은 문서를 편집할 수 있어야 해. 먼저 전체 아키텍처를 설계해줘.</div>
+            <button class="pi-copy">
+              <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><rect x="4.5" y="1.5" width="7" height="8.5" rx="1.5" stroke="currentColor" stroke-width="1.3"/><rect x="1.5" y="3.5" width="7" height="8.5" rx="1.5" stroke="currentColor" stroke-width="1.3" fill="white"/></svg>
+              복사하기
+            </button>
+            <div class="pi-stats">148회 복사됨</div>
+          </div>
+
+          <div class="prompt-item">
+            <div class="pi-label"><span class="pi-step">2단계</span> 커서 공유 구현</div>
+            <div class="pi-text">위 아키텍처를 바탕으로 메인 에디터 컴포넌트를 만들어줘. TipTap을 쓸 거고, 현재 편집 중인 유저의 커서 위치를 실시간으로 보여줘야 해.</div>
+            <button class="pi-copy">
+              <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><rect x="4.5" y="1.5" width="7" height="8.5" rx="1.5" stroke="currentColor" stroke-width="1.3"/><rect x="1.5" y="3.5" width="7" height="8.5" rx="1.5" stroke="currentColor" stroke-width="1.3" fill="white"/></svg>
+              복사하기
+            </button>
+            <div class="pi-stats">83회 복사됨</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 댓글 -->
+    <div class="comments-section">
+      <div class="comments-title">댓글 <span>24</span></div>
+
+      <div class="comment-new">
+        <div class="c-av"><img src="https://picsum.photos/seed/me1/40/40" alt=""></div>
+        <div class="c-input-wrap">
+          <textarea class="c-input" rows="2" placeholder="댓글을 남겨주세요"></textarea>
+          <div class="c-submit-row"><button class="c-submit">등록</button></div>
+        </div>
+      </div>
+
+      <div class="comment">
+        <div class="c-av"><img src="https://picsum.photos/seed/cm1/40/40" alt=""></div>
+        <div class="c-body">
+          <div class="c-header"><span class="c-name">ai_builder_park</span><span class="c-time">3시간 전</span></div>
+          <div class="c-text">프롬프트 퀄리티가 엄청나네요! 아키텍처 설계 프롬프트 바로 참고했는데 저한테도 잘 됐어요</div>
+          <div class="c-footer">
+            <button class="c-act liked">
+              <svg width="13" height="13" viewBox="0 0 13 13" fill="#E8483A"><path d="M6.5 11S1.5 8 1.5 4.4a2.8 2.8 0 0 1 5-1.8A2.8 2.8 0 0 1 11.5 4.4C11.5 8 6.5 11 6.5 11z"/></svg>
+              12
+            </button>
+            <button class="c-act">답글</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="comment">
+        <div class="c-av"><img src="https://picsum.photos/seed/cm2/40/40" alt=""></div>
+        <div class="c-body">
+          <div class="c-header"><span class="c-name">nocode_lee</span><span class="c-time">5시간 전</span></div>
+          <div class="c-text">Supabase Presence로 커서 공유 구현한 거 신기해요. 혹시 배포는 어디에 하셨나요?</div>
+          <div class="c-footer">
+            <button class="c-act">
+              <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M6.5 11S1.5 8 1.5 4.4a2.8 2.8 0 0 1 5-1.8A2.8 2.8 0 0 1 11.5 4.4C11.5 8 6.5 11 6.5 11z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg>
+              8
+            </button>
+            <button class="c-act">답글</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="comment">
+        <div class="c-av"><img src="https://picsum.photos/seed/cm3/40/40" alt=""></div>
+        <div class="c-body">
+          <div class="c-header"><span class="c-name">vibe_maker_jang</span><span class="c-time">어제</span></div>
+          <div class="c-text">3일 만에 이걸 만들었다고요? 비슷한 거 시도했다가 일주일째 씨름 중인데... 유튜브로 풀어주시면 구독하겠습니다</div>
+          <div class="c-footer">
+            <button class="c-act">
+              <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M6.5 11S1.5 8 1.5 4.4a2.8 2.8 0 0 1 5-1.8A2.8 2.8 0 0 1 11.5 4.4C11.5 8 6.5 11 6.5 11z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg>
+              31
+            </button>
+            <button class="c-act">답글</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 오른쪽 사이드바 (데스크탑만) -->
+  <div class="side-col">
+    <div class="side-card">
+      <div class="side-card-title">통계</div>
+      <div class="stats-grid">
+        <div class="s-stat"><div class="s-stat-num">128</div><div class="s-stat-label">좋아요</div></div>
+        <div class="s-stat"><div class="s-stat-num">24</div><div class="s-stat-label">댓글</div></div>
+        <div class="s-stat"><div class="s-stat-num">1.2k</div><div class="s-stat-label">조회</div></div>
+        <div class="s-stat"><div class="s-stat-num">231</div><div class="s-stat-label">프롬프트 복사</div></div>
+      </div>
+    </div>
+    <div class="side-card">
+      <div class="side-card-title">만든 사람</div>
+      <div class="author-card">
+        <div class="ac-av"><img src="https://picsum.photos/seed/da1/80/80" alt=""></div>
+        <div class="ac-name">vibecoder_kim</div>
+        <div class="ac-bio">Claude + Cursor로 매일 무언가 만드는 사람</div>
+        <div class="ac-stats">
+          <div class="ac-stat"><span>12</span> 프로젝트</div>
+          <div class="ac-stat"><span>842</span> 팔로워</div>
+        </div>
+        <button class="ac-follow">팔로우</button>
+      </div>
+    </div>
+    <div class="side-card">
+      <div class="side-card-title">같은 툴로 만든 것</div>
+      <div class="related-list">
+        <div class="related-item">
+          <div class="ri-thumb"><img src="https://picsum.photos/seed/rl1/80/60" alt=""></div>
+          <div><div class="ri-title">Cursor로 만든 개인 CRM</div><div class="ri-meta">ai_builder_park · 좋아요 89</div></div>
+        </div>
+        <div class="related-item">
+          <div class="ri-thumb"><img src="https://picsum.photos/seed/rl2/80/60" alt=""></div>
+          <div><div class="ri-title">Claude API 기반 이메일 자동화</div><div class="ri-meta">codeless_jung · 좋아요 74</div></div>
+        </div>
+        <div class="related-item">
+          <div class="ri-thumb"><img src="https://picsum.photos/seed/rl3/80/60" alt=""></div>
+          <div><div class="ri-title">Supabase로 만든 링크 단축 서비스</div><div class="ri-meta">nocode_lee · 좋아요 56</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- 하단 액션바 (모바일) -->
+<div class="bottom-actions">
+  <button class="act-btn liked">
+    <svg width="16" height="16" viewBox="0 0 15 15" fill="#E8483A"><path d="M7.5 12.5S1.5 9 1.5 4.9a3.2 3.2 0 0 1 6-1.6A3.2 3.2 0 0 1 13.5 4.9C13.5 9 7.5 12.5 7.5 12.5z"/></svg>
+    128
+  </button>
+  <button class="act-btn">
+    <svg width="16" height="16" viewBox="0 0 15 15" fill="none"><path d="M13.5 1.5h-12a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h8.5l3.5 2.5V2a.5.5 0 0 0-.5-.5z" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    24
+  </button>
+  <button class="act-btn saved">
+    <svg width="16" height="16" viewBox="0 0 15 15" fill="none"><path d="M12.5 1.5h-10a.5.5 0 0 0-.5.5v12l5-3 5 3V2a.5.5 0 0 0-.5-.5z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    47
+  </button>
+  <button class="demo-act">
+    데모 보기
+    <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 10L10 2M10 2H5M10 2v5" stroke="white" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </button>
+</div>
+
+</body>
+</html>
